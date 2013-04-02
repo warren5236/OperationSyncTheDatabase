@@ -13,6 +13,10 @@ class Database {
 		$this->_settings = $settings;
 	}
 
+	public function getConnection(){
+		return $this->_connection;
+	}
+
 	public function connect(){
 		// connect if we aren't connected yet
 		if($this->_connection == null){
@@ -73,7 +77,11 @@ class Database {
 
 		foreach($commands as $command){
 			if($command != '' && $command != ' '){
-				$this->_connection->exec($command);
+				$returnVal = $this->_connection->exec($command);
+
+				if($returnVal === false){
+					throw new \Exception('Error while attempting to run query:' . $command);
+				}
 			}
 		}
 

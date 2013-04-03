@@ -34,6 +34,24 @@ class MysqlTest extends PHPUnit_Framework_TestCase{
 		$this->assertSame(array('ostdDatabaseHistory', 'testtable'), $mysql->getTables());
 	}
 
+	public function testApplierWithViews(){
+		$settings = eval(file_get_contents('OSTD/Settings/defaults.php'));
+		$settings = array_merge($settings, $this->getSettings());
+
+		$mysql = new Mysql($settings);
+		$mysql->deleteAll();
+		$this->assertSame(array(), $mysql->getViews());
+
+		$applier = new \OSTD\Applier($mysql, $settings);
+		$applier->setDirectory('Tests/Data/Mysql/testApplierWithViews');
+		$applier->apply();
+
+		$this->assertSame(array('viewtest'), $mysql->getViews());
+
+		$applier->apply();
+		$this->assertSame(array('viewtest'), $mysql->getViews());
+	}
+
 	public function getSettings(){
 		return array(
 			'database'=>array(

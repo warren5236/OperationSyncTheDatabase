@@ -33,7 +33,16 @@ class Database {
 	}
 
 	public function deleteAll(){
+		$this->deleteViews();
 		$this->deleteTables();
+	}
+
+	public function deleteViews(){
+		$this->connect();
+
+		foreach ($this->getViews() as $view) {
+			$this->_connection->exec('DROP VIEW ' . $view);
+		}
 	}
 
 	public function deleteTables(){
@@ -60,6 +69,22 @@ class Database {
 		return $returnVal;
 	}
 
+	public function getViews(){
+		$this->connect();
+
+		$returnVal = array();
+
+		$viewQuery = $this->_connection->prepare("SHOW FULL TABLES WHERE TABLE_TYPE LIKE 'VIEW'");
+		$viewQuery->execute();
+		$views = $viewQuery->fetchAll();
+
+		foreach($views as $view){
+			$returnVal[] = $view[0];
+		}
+
+		return $returnVal;
+	}
+
 	public function loadFile($fileName){
 		$this->connect();
 
@@ -80,7 +105,7 @@ class Database {
 				$returnVal = $this->_connection->exec($command);
 
 				if($returnVal === false){
-					throw new \Exception('Error while attempting to run query:' . $command);
+					throw new \Exception('Error while attempting to run query:' . $command . print_r($this->_connection->errorInfo(),true));
 				}
 			}
 		}

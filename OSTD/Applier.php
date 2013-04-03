@@ -18,7 +18,11 @@ class Applier{
 	}
 
 	public function apply(){
+
+		$this->_database->deleteViews();
 		$this->_applyDiffs();
+
+		$this->_applyViews();
 	}
 
 	public function _applyDiffs(){
@@ -40,8 +44,20 @@ class Applier{
 		}
 	}
 
+	public function _applyViews(){
+		$files = $this->getFiles($this->_directory . '/Views');
+
+		foreach ($files as $file) {
+			$this->_database->loadFile($file);
+		}
+	}
+
 	public function getFiles($directory){
 		$returnVal = array();
+
+		if(!is_dir($directory)){
+			return $returnVal;
+		}
 
 		$dir = dir($directory);
 

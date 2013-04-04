@@ -56,11 +56,10 @@ class MysqlTest extends PHPUnit_Framework_TestCase{
 		return array(
 			'database'=>array(
 				'driver'=>'mysql',
-				'host'=>'127.0.0.1',
+				'host'=>'localhost',
 				'user'=>'ostdtestuser',
 				'pass'=>'ostdtestpassword',
 				'database'=>'ostdtestuser',
-				'port'=>'8889',
 			),
 		);
 	}

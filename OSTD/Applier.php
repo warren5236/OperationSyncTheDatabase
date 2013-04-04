@@ -35,7 +35,7 @@ class Applier{
 				$this->_database->loadFile($file);
 
 				$command = 'INSERT INTO ' . $this->_settings['historyTable'] . ' SET filename="'  . $file . '"';
-				$this->_database->getConnection()->exec($command);
+				$returnVal = $this->_database->getConnection()->exec($command);
 
 				if($returnVal === false){
 					throw new \Exception('Error while attempting to run query:' . $command);

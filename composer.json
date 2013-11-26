@@ -1,9 +1,14 @@
 {
-    "name": "warren5236/OperationSyncTheDatabase",
+    "name": "warren5236/operation-sync-the-database",
     "description": "Operation Sync the Database",
     "license": "MIT",
     "keywords": [
         "database"
     ],
-    "homepage": "https://github.com/warren5236/OperationSyncTheDatabase/"
+    "homepage": "https://github.com/warren5236/OperationSyncTheDatabase/",
+    "autoload": {
+        "psr-0": {
+            "OSTD": "OSTD/"
+        }
+    }
 }
